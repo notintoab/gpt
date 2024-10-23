@@ -82,6 +82,10 @@ function setChartMode(metric) {
 
             // set the options to the chart instance
             myChart.setOption(option);
+
+            window.addEventListener('resize', function () {
+                myChart.resize();  // Adjust the chart size when window is resized
+            });
         })
         .catch(error => {
             console.error('Error fetching data:', error);
