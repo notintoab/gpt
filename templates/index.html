@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>GPT - your gym progress tracker</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <!-- banner -->
+        <div class="row">
+            <div class="col text-center">
+                <h3 class="fw-bold"><i>your </i>Gym Progress Tracker</h3>
+            </div>
+        </div>
+
+        <!-- flash messages -->
+        <div class="row">
+            <div class="col text-center">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div>
+                            {% for category, message in messages %}
+                                <p class="alert-{{ category }}">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+
+        <!-- user info section -->
+        <div class="row">
+            <div class="col text-center">
+                {% if user %}
+                    <p>Today is {{ today_date }}</p>
+                    <div class="alert alert-light">
+                        <p>Logged in as <strong>{{ user.username }}</strong></p>
+                        <p>Height: <strong>{{ user.height }}</strong></p>
+                        <a href="{{ url_for('logout') }}" class="btn btn-danger btn-sm" name="logout">Logout</a>
+                    </div>
+                {% else %}
+                    <div>
+                        <a href="{{ url_for('login') }}" class="btn btn-primary btn-sm">Login</a>
+                        <a href="{{ url_for('signup') }}" class="btn btn-secondary btn-sm">Signup</a>
+                        
+                        {% if request.path != url_for('index') %}
+                            <a class="link-danger text-decoration-none" href="/" >x</a>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- login/signup block -->
+                    <div class="mt-3">
+                        {% block loginsignup %}
+                        {% endblock %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% if user %}
+<!-- add/edit block -->
+<div>
+    {% block add_form %}
+    {% endblock %}
+    {% block edit_form %}
+    {% endblock %}
+</div>
+
+<div class="container mt-5">
+    <!-- table -->
+    <table class="table table-sm table-hover table-bordered align-middles text-center">
+        <thead class="table table-responsive">
+            <tr>
+                <th>Date</th>
+                <th>Body Weight (kg)</th>
+                <th>Muscle Weight (kg)</th>
+                <th>Fat Weight (%)</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td class="text-nowrap">{{ result.date_created.strftime('%d.%m.%Y') }}</td>
+                <td>{{ result.body_weight }}</td>
+                <td>{{ result.muscle_weight }}</td>
+                <td>{{ result.fat_weight }}%</td>
+                <td class="fit">
+                    <!-- edit record button -->
+                    <button class="btn btn-link btn-sm">
+                        <a  href="/edit/{{ result.id }}">
+                            <img width="25" height="25" src="/static/images/edit.png"></img>
+                        </a>
+                    </button>
+                </td>
+                <td class="fit">
+                    <!-- remove record button -->
+                    <form method="post" action="{{ url_for('remove_result', result_id=result.id) }}" class="d-inline">
+                        <button type="submit" class="btn btn-link btn-sm" onclick="return confirm('Remove record?')">
+                            <img width="25" height="25" src="/static/images/delete.png"></img>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- add new record button -->
+    <button class="btn btn-sm">
+        <a href="/add" class="text-decoration-none">
+            <h6>
+                + Add New Record
+            </h6>
+        </a>
+    </button>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+
+            <!-- buttons to toggle between different datasets -->
+            <button class="btn btn-primary" onclick="setChartMode('body_weight')">Body Weight</button>
+            <button class="btn btn-success" onclick="setChartMode('muscle_weight')">Muscle Weight</button>
+            <button class="btn btn-danger" onclick="setChartMode('fat_weight')">Fat Weight</button>
+            
+            <!-- chart container -->
+            <div id="chart" style="height:400px; margin-top: 20px;"></div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.0.2/dist/echarts.min.js"></script>
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>
