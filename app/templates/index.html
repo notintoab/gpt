@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Dashboard</h2>
+{% if user %}
+    {% if results %}
+    <p>
+        <h6>
+            Height: {{ current_user.height }}
+        </h6>
+    </p>
+        <!-- table -->
+        <table class="table table-sm table-hover table-bordered align-middle text-center">
+            <thead class="table table-responsive">
+                <tr>
+                    <th>Date</th>
+                    <th>Body Weight (kg)</th>
+                    <th>Muscle Weight (kg)</th>
+                    <th>Fat Weight (%)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result.date_created.strftime('%Y-%m-%d') }}</td>
+                        <td>{{ result.body_weight }}</td>
+                        <td>{{ result.muscle_weight }}</td>
+                        <td>{{ result.fat_weight }}</td>
+                        <td>
+                            <!-- edit record button -->
+                            <a href="{{ url_for('main.edit_result', result_id=result.id) }}" class="btn btn-sm">
+                                <img width="25" height="25" src="/static/images/edit.png"></img>
+                            </a>
+                        </td>
+                        <td>
+                            <!-- remove record button -->
+                            <form action="{{ url_for('main.remove_result', result_id=result.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-sm" onclick="return confirm('Are you sure you want to delete this record?');">
+                                    <img width="25" height="25" src="/static/images/delete.png"></img>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <!-- add new record button -->
+        <button class="btn btn-sm">
+            <a href="{{ url_for('main.add_result') }}" class="text-decoration-none">
+                <h6>
+                    + Add New Record
+                </h6>
+            </a>
+        </button>
+    {% else %}
+        <p>You have no records yet. <a href="{{ url_for('main.add_result') }}">Add your first record</a>.</p>
+    {% endif %}
+    <!-- buttons to toggle between different charts -->
+    <div class="mb-3">
+        <button onclick="setChartMode('body_weight')" class="btn btn-primary">Body Weight</button>
+        <button onclick="setChartMode('muscle_weight')" class="btn btn-success">Muscle Weight</button>
+        <button onclick="setChartMode('fat_weight')" class="btn btn-danger">Fat Weight</button>
+    </div>
+    <!-- chart container -->
+    <div id="chart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
+{% else %}
+    <p>Please <a href="{{ url_for('main.login') }}">log in</a> to view your dashboard.</p>
+{% endif %}
+{% endblock %}
+

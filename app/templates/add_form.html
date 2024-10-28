@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container-fluid mt-5 w-50 p-3">
+    <h2>Add New Record</h2>
+    <form method="post" action="{{ url_for('main.add_result') }}">
+        {{ form.hidden_tag() }}
+        <!-- date input -->
+        <div class="form-group mb-3"> 
+            {{ form.date.label }} {{ form.date(class="form-control") }}
+            {% if form.date.errors %}
+                <small class="text-danger">{{ form.date.errors[0] }}</small>
+            {% endif %}
+        </div>
+        <!-- body weight input -->
+        <div class="form-group mb-3">
+            {{ form.body_weight.label }} {{ form.body_weight(class="form-control") }}
+            {% if form.body_weight.errors %}
+                <small class="text-danger">{{ form.body_weight.errors[0] }}</small>
+            {% endif %}
+        </div>
+        <!-- muscle weight input -->
+        <div class="form-group mb-3">
+            {{ form.muscle_weight.label }} {{ form.muscle_weight(class="form-control") }}
+            {% if form.muscle_weight.errors %}
+                <small class="text-danger">{{ form.muscle_weight.errors[0] }}</small>
+            {% endif %}
+        </div>
+        <!-- fat weight input -->
+        <div class="form-group mb-3">
+            {{ form.fat_weight.label }} {{ form.fat_weight(class="form-control") }}
+            {% if form.fat_weight.errors %}
+                <small class="text-danger">{{ form.fat_weight.errors[0] }}</small>
+            {% endif %}
+        </div>
+        <!-- buttons -->
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Add</button>
+            <a href="{{ url_for('main.index') }}" class="btn btn-secondary">Back</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,4 +1,4 @@
-document.getElementById('add-date-picker').valueAsDate = new Date();
+console.log("scripts.js loaded")
 
 // function to set chart mode
 function setChartMode(metric) {
