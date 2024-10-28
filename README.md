@@ -18,6 +18,6 @@ The Gym Progress Tracker is a web application that helps users track their body 
 - **Chart.js**: Generates dynamic and responsive charts for progress visualization
 
 ### Screenshots
-<img width="1470" alt="Screenshot 2024-10-24 at 23 24 20" src="https://github.com/user-attachments/assets/3d4626f0-021d-499b-817b-3eb15a895266">
+<img width="1323" alt="Screenshot 2024-10-28 at 20 16 10" src="https://github.com/user-attachments/assets/92d89ca3-06bd-49aa-a370-30b4f1727139">
 
 <img width="1429" alt="Screenshot 2024-10-24 at 23 38 23" src="https://github.com/user-attachments/assets/c19018ca-a308-4290-be07-ffbafc4f9c8e">
