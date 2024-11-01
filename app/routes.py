@@ -152,3 +152,19 @@ def get_data():
     }
 
     return jsonify(data)
+
+# route for demo mode
+@bp.route('/demo')
+def demo_login():
+    # query the demo user
+    demo_user = User.query.filter_by(username='demo_user').first()
+
+    if demo_user:
+        # log in demo user
+        login_user(demo_user)
+        flash('You are now logged in as a demo user.', 'warning')
+        return redirect(url_for('main.index'))
+
+    # if the demo user doesn't exist, show an error
+    flash('Demo user not found. Please contact support.', 'danger')
+    return redirect(url_for('main.index'))

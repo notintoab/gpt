@@ -25,6 +25,9 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
+                            <a class="demo-btn btn btn-outline-primary btn-sm" href="{{ url_for('main.demo_login') }}">Demo Mode</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('main.login') }}">Login</a>
                         </li>
                         <li class="nav-item">

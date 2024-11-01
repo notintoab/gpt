@@ -53,17 +53,17 @@
                 </h6>
             </a>
         </button>
+        <div class="mb-3">
+            <button onclick="setChartMode('body_weight')" class="btn btn-primary">Body Weight</button>
+            <button onclick="setChartMode('muscle_weight')" class="btn btn-success">Muscle Weight</button>
+            <button onclick="setChartMode('fat_weight')" class="btn btn-danger">Fat Weight</button>
+        </div>
+        <!-- chart container -->
+        <div id="chart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
     {% else %}
         <p>You have no records yet. <a href="{{ url_for('main.add_result') }}">Add your first record</a>.</p>
     {% endif %}
     <!-- buttons to toggle between different charts -->
-    <div class="mb-3">
-        <button onclick="setChartMode('body_weight')" class="btn btn-primary">Body Weight</button>
-        <button onclick="setChartMode('muscle_weight')" class="btn btn-success">Muscle Weight</button>
-        <button onclick="setChartMode('fat_weight')" class="btn btn-danger">Fat Weight</button>
-    </div>
-    <!-- chart container -->
-    <div id="chart" style="width: 100%; height: 400px; margin-top: 20px;"></div>
 {% else %}
     <p>Please <a href="{{ url_for('main.login') }}">log in</a> to view your dashboard.</p>
 {% endif %}
